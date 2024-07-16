@@ -26,11 +26,11 @@ Após isso pode iniciar o projeto normalmente.
 
 - ✅ [US001] Montar esquema
     - ✅ [US001-1] Diagrama de classes
--   [US002] Configurar ambientes
-    -  [US002-1] Criar repositório remoto
-    -  [US002-2] Criar repositório local
-    -  [US002-3] Subir container do Postgres no Docker
-    -  [US002-4] Conectar aplicação ao banco Postgres
+- ✅  [US002] Configurar ambientes
+    - ✅ [US002-1] Criar repositório remoto
+    - ✅ [US002-2] Criar repositório local
+    - ✅ [US002-3] Subir container do Postgres no Docker
+    - ✅ [US002-4] Conectar aplicação ao banco Postgres
 -   [US003] Criar entidades
     -   [US003-1] Entidade Pauta
     -   [US003-2] Entidade Votacao
