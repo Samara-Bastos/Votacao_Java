@@ -25,7 +25,7 @@ Após isso pode iniciar o projeto normalmente.
 ## US's
 
 - ✅ [US001] Montar esquema
-    -  [US001-1] Diagrama de classes
+    - ✅ [US001-1] Diagrama de classes
 -   [US002] Configurar ambientes
     -  [US002-1] Criar repositório remoto
     -  [US002-2] Criar repositório local
