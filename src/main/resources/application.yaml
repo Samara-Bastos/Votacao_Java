@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    password: ${POSTGRES_PASSWORD}
+    url: ${DB_URL}
+    username: ${POSTGRES_USER}
+  jpa:
+    show-sql: true
+  flyway:
+    enabled: true
+    validate-on-migrate: true
