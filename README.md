@@ -31,11 +31,11 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US002-2] Criar repositório local
     - ✅ [US002-3] Subir container do Postgres no Docker
     - ✅ [US002-4] Conectar aplicação ao banco Postgres
--   [US003] Criar entidades
-    -   [US003-1] Entidade Pauta
-    -   [US003-2] Entidade Votacao
-    -   [US003-3] Entidade Voto
-    -   [US003-4] Entidade Usuario
+- ✅  [US003] Criar entidades
+    - ✅ [US003-1] Entidade Pauta
+    - ✅ [US003-2] Entidade Votacao
+    - ✅ [US003-3] Entidade Voto
+    - ✅ [US003-4] Entidade Usuario
 
 
 
