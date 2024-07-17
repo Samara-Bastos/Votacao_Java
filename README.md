@@ -36,7 +36,10 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US003-2] Entidade Votacao
     - ✅ [US003-3] Entidade Voto
     - ✅ [US003-4] Entidade Usuario
-
+- ✅  [US004] Implementar cadastros
+    - ✅ [US004-1] Cadastrar Usuario
+    - ✅ [US004-2] Cadastrar Pauta
+    - ✅ [US004-3] Cadastrar Voto
 
 
 
