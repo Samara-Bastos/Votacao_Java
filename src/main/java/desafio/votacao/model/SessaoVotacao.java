@@ -13,7 +13,7 @@ import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import desafio.votacao.model.enums.Situacao;
+import desafio.votacao.enums.Situacao;
 
 
 @Entity

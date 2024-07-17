@@ -1,6 +1,6 @@
 package desafio.votacao.model;
 
-import desafio.votacao.model.enums.TipoVoto;
+import desafio.votacao.enums.TipoVoto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

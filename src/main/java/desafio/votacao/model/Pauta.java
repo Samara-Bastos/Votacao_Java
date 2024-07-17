@@ -1,6 +1,6 @@
 package desafio.votacao.model;
 
-import desafio.votacao.model.enums.Categoria;
+import desafio.votacao.enums.Categoria;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
