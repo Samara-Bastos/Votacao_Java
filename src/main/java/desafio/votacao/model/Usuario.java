@@ -5,8 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 @Entity
+@Data
 public class Usuario {
     
     @Id
@@ -17,6 +19,6 @@ public class Usuario {
     private String nome;
 
     @Column
-    private String CPF;
+    private String cpf;
 
 }

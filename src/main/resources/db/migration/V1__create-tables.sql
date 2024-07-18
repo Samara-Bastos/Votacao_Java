@@ -7,8 +7,10 @@ CREATE TABLE Pauta (
 
 CREATE TABLE Sessao_Votacao (
     id SERIAL PRIMARY KEY,
+    ativa BOOLEAN,
     pauta_id INTEGER,
-    tempo_sessao TIMESTAMP,
+    tempo_inicio TIMESTAMP,
+    tempo_fim TIMESTAMP,
     situacao VARCHAR(20),
     FOREIGN KEY (pauta_id) REFERENCES Pauta(id)
 );

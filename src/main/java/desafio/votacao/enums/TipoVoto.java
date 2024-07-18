@@ -1,4 +1,4 @@
-package desafio.votacao.model.enums;
+package desafio.votacao.enums;
 
 public enum TipoVoto {
     SIM,

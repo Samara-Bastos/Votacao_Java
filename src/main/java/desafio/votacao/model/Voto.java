@@ -1,6 +1,6 @@
 package desafio.votacao.model;
 
-import desafio.votacao.model.enums.TipoVoto;
+import desafio.votacao.enums.TipoVoto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,8 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.Data;
 
 @Entity
+@Data
 public class Voto {
     
     @Id
