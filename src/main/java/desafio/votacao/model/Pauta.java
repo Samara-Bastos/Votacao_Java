@@ -10,8 +10,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
+import lombok.Data;
 
 @Entity
+@Data
 public class Pauta {
     
     @Id
@@ -31,4 +34,6 @@ public class Pauta {
     @OneToOne(mappedBy = "pauta", cascade = CascadeType.ALL)
     private SessaoVotacao votacao;
 
+    @Transient
+    private Boolean ativaSessao;
 }
