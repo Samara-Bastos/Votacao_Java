@@ -42,8 +42,10 @@ public class SessaoVotacao {
     private Pauta pauta;
 
     @OneToMany
-    @Builder.Default
-    private List<Voto> votos  = new ArrayList<>();
+    private List<Voto> votosSim  = new ArrayList<>();
+
+    @OneToMany
+    private List<Voto> votosNao  = new ArrayList<>();
 
     @Column(name = "tempo_inicio")
     private LocalDateTime tempoInicioSessao;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestVotoDto;
+import desafio.votacao.enums.TipoVoto;
 import desafio.votacao.exception.VotacaoFechadaException;
 import desafio.votacao.mapper.VotoMapper;
 import desafio.votacao.model.SessaoVotacao;
@@ -43,7 +44,14 @@ public class VotoServiceImpl {
 
             repository.save(voto);
 
-            sessaoVotacao.setVotos(votos);
+
+            //Contabilizando os votos na sessão de votação
+            if ((dto.tipo() == TipoVoto.SIM)) {
+                sessaoVotacao.setVotosSim(votos);
+            }else if (dto.tipo() == TipoVoto.NAO) {
+                sessaoVotacao.setVotosNao(votos);
+            }
+            
         }else{
             throw new VotacaoFechadaException("Não foi possivel votar, pois essa votação não está ativa");
         }
