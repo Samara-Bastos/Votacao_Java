@@ -1,11 +1,8 @@
 package desafio.votacao.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 import desafio.votacao.enums.Situacao;
 import desafio.votacao.model.SessaoVotacao;
-import desafio.votacao.model.Voto;
 
 public record ResponseSessaoVotacaoDto(
 
