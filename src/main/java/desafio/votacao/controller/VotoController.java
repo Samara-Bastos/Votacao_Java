@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
 import desafio.votacao.dto.RequestVotoDto;
+import desafio.votacao.dto.ResponseVotoDto;
 import desafio.votacao.service.VotoServiceImpl;
 
 @RestController
@@ -27,5 +28,9 @@ public class VotoController {
         service.registrarVoto(id, dto);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<ResponseVotoDto>> visualizar(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.visualizar());
+    }
 
 }

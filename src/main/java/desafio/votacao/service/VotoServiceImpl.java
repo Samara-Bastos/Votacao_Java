@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestVotoDto;
+import desafio.votacao.dto.ResponseVotoDto;
 import desafio.votacao.exception.FindException;
 import desafio.votacao.exception.VotacaoFechadaException;
 import desafio.votacao.mapper.VotoMapper;
@@ -56,5 +57,7 @@ public class VotoServiceImpl {
         }
     }
 
-
+    public List<ResponseVotoDto> visualizar(){
+        return repository.findAll().stream().map(ResponseVotoDto::new).toList();
+    };
 }
