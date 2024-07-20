@@ -43,7 +43,14 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US004-4] Registrar Voto
     - ✅ [US004-5] Criar exceptions personalizadas
 - ✅  [US005] Contabilizar os votos 
+- ✅  [US006] Implementar métodos de exibição
+    - ✅ [US006-1] Exibir Usuario
+    - ✅ [US006-2] Exibir todas as pautas
+    - ✅ [US006-3] Exibir sessão de votação
+    - ✅ [US006-4] Exibir votos
 
+
+ 
 
 
 ## US's - EXTRA
