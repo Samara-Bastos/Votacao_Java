@@ -1,5 +1,7 @@
 package desafio.votacao.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import desafio.votacao.dto.RequestPautaDto;
+import desafio.votacao.dto.ResponsePautaDto;
+import desafio.votacao.dto.ResponseUsuarioDto;
 import desafio.votacao.service.PautaServiceImpl;
 
 @RestController
@@ -27,4 +31,10 @@ public class PautaController {
         service.create(dto);
     }
     
+    @GetMapping()
+    public ResponseEntity<List<ResponsePautaDto>> visualizar(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.visualizar());
+    }
+
+
 }

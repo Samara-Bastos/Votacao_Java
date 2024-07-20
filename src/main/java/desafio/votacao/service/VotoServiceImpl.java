@@ -1,19 +1,19 @@
 package desafio.votacao.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestVotoDto;
-import desafio.votacao.enums.TipoVoto;
+import desafio.votacao.dto.ResponseVotoDto;
+import desafio.votacao.exception.FindException;
 import desafio.votacao.exception.VotacaoFechadaException;
 import desafio.votacao.mapper.VotoMapper;
 import desafio.votacao.model.SessaoVotacao;
 import desafio.votacao.model.Usuario;
 import desafio.votacao.model.Voto;
 import desafio.votacao.repository.VotoRepository;
+
+import java.util.List;
 
 @Service
 public class VotoServiceImpl {
@@ -26,8 +26,6 @@ public class VotoServiceImpl {
 
     @Autowired
     UsuarioServiceImpl usuarioService;
-
-    private List<Voto> votos = new ArrayList<>();
     
     
     public void registrarVoto(Long id, RequestVotoDto dto){
@@ -35,26 +33,31 @@ public class VotoServiceImpl {
 
         if (sessaoVotacao.getAtiva() == true) {
             Usuario usuario = usuarioService.buscarUsuario(dto.cpf()).get();
+
+            //Faz uma busca para verificar se esse usuario já realizou algum voto
+            List<Voto> ListReturn = repository.findByUsuario(usuario);
+
+            //Se ele já tiver votado, verifica se o voto que esse usuario fez foi na sessão da votação atual
+            for (Voto votoReturn : ListReturn) {
+                if (votoReturn.getVotacao() == sessaoVotacao) {
+                    throw new FindException("Esse usuário ja votou nessa pauta");
+                }   
+            }
+
             Voto voto = VotoMapper.INSTANCE.dtoToVoto(dto);
             
-            votos.add(voto);
-
             voto.setUsuario(usuario);
             voto.setVotacao(sessaoVotacao);
-
             repository.save(voto);
 
-
-            //Contabilizando os votos na sessão de votação
-            if ((dto.tipo() == TipoVoto.SIM)) {
-                sessaoVotacao.setVotosSim(votos);
-            }else if (dto.tipo() == TipoVoto.NAO) {
-                sessaoVotacao.setVotosNao(votos);
-            }
+            sessaoVotacaoService.contabilizarVotoNaSessao(id, dto);
             
         }else{
             throw new VotacaoFechadaException("Não foi possivel votar, pois essa votação não está ativa");
         }
     }
 
+    public List<ResponseVotoDto> visualizar(){
+        return repository.findAll().stream().map(ResponseVotoDto::new).toList();
+    };
 }

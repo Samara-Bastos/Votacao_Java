@@ -1,12 +1,14 @@
 package desafio.votacao.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestUsuarioDto;
-import desafio.votacao.exception.FinfException;
+import desafio.votacao.dto.ResponseUsuarioDto;
+import desafio.votacao.exception.FindException;
 import desafio.votacao.exception.NotFoundException;
 import desafio.votacao.mapper.UsuarioMapper;
 import desafio.votacao.model.Usuario;
@@ -23,7 +25,7 @@ public class UsuarioServiceImpl {
         Optional<Usuario> usuarioReturn = repository.findByCpf(dto.cpf());
 
         if (usuarioReturn.isPresent()) {
-           throw new FinfException("Já existe um usuário cadastrado com esse CPF");
+           throw new FindException("Já existe um usuário cadastrado com esse CPF");
         }
 
         Usuario usuario = UsuarioMapper.INSTANCE.dtoToUsuario(dto);
@@ -40,4 +42,8 @@ public class UsuarioServiceImpl {
 
         return usuario;
     }
+
+    public List<ResponseUsuarioDto> visualizar(){
+        return repository.findAll().stream().map(ResponseUsuarioDto::new).toList();
+    };
 }

@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,8 +16,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import desafio.votacao.enums.Situacao;
 
 
@@ -41,11 +38,13 @@ public class SessaoVotacao {
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
-    @OneToMany
-    private List<Voto> votosSim  = new ArrayList<>();
+    @Column(name = "voto_sim")
+    @Builder.Default
+    private Integer votosSim  = 0;
 
-    @OneToMany
-    private List<Voto> votosNao  = new ArrayList<>();
+    @Column(name = "voto_nao")
+    @Builder.Default
+    private Integer votosNao  = 0;
 
     @Column(name = "tempo_inicio")
     private LocalDateTime tempoInicioSessao;
