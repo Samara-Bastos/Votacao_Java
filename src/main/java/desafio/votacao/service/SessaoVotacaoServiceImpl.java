@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import desafio.votacao.dto.RequestVotoDto;
 import desafio.votacao.enums.Situacao;
+import desafio.votacao.enums.TipoVoto;
 import desafio.votacao.exception.NotFoundException;
 import desafio.votacao.model.Pauta;
 import desafio.votacao.model.SessaoVotacao;
@@ -39,4 +41,17 @@ public class SessaoVotacaoServiceImpl {
 
         return sessaoVotacao;
     }
+
+    public void contabilizarVotoNaSessao(Long id, RequestVotoDto dto){
+        SessaoVotacao sessaoVotacao = buscarSessaoVotacao(id).get();
+
+        if ((dto.tipo() == TipoVoto.SIM)) {
+            sessaoVotacao.setVotosSim(sessaoVotacao.getVotosSim() + 1);
+        }else if (dto.tipo() == TipoVoto.NAO) {
+            sessaoVotacao.setVotosNao(sessaoVotacao.getVotosNao() + 1);
+        }
+
+        repository.save(sessaoVotacao);
+    }
+
 }
