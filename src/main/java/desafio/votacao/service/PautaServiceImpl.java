@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestPautaDto;
 import desafio.votacao.dto.ResponsePautaDto;
+import desafio.votacao.exception.TempoInvalidoException;
 import desafio.votacao.mapper.PautaMapper;
 import desafio.votacao.model.Pauta;
 import desafio.votacao.repository.PautaRepository;
@@ -26,7 +27,10 @@ public class PautaServiceImpl {
         repository.save(pauta);
 
         if (dto.ativaSessao() == true) {
-            sessaoVotacaoService.abrirSessaoVotacao(pauta);
+            if (dto.tempoSessao() == 0) {
+                throw new TempoInvalidoException("O tempo de sessão não pode ser zero");
+            }
+            sessaoVotacaoService.abrirSessaoVotacao(dto.tempoSessao(), pauta);
         }
         
     }

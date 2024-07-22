@@ -1,12 +1,16 @@
 package desafio.votacao.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import desafio.votacao.dto.RequestVotoDto;
+import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
 import desafio.votacao.enums.TipoVoto;
 import desafio.votacao.exception.NotFoundException;
@@ -20,16 +24,23 @@ public class SessaoVotacaoServiceImpl {
     @Autowired
     SessaoVotacaoRepository repository;
 
-    public void abrirSessaoVotacao(Pauta pauta){
+    //Criada uma instância do Scheduled com um pool de threads de tamanho 1, para especificar que apenas uma tarefa será executada por vez neste executor. 
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    public void abrirSessaoVotacao(int tempo, Pauta pauta){
+
         SessaoVotacao sessaoVotacao = SessaoVotacao.builder()
                                                     .ativa(true)
                                                     .pauta(pauta)
-                                                    .tempoInicioSessao(LocalDateTime.now())
-                                                    .tempoFimSessao(LocalDateTime.now().plusMinutes(1))
+                                                    .tempoInicioSessao(LocalTime.now().withNano(0))
+                                                    .tempoFimSessao(LocalTime.now().plusMinutes(tempo).withNano(0))
                                                     .situacao(Situacao.ABERTA)
                                                     .build();  
 
         repository.save(sessaoVotacao);
+
+        // Agenda a tarefa para chamar a função a cada minuto
+        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao), 1, 1, TimeUnit.MINUTES);
     }
 
     public Optional<SessaoVotacao> buscarSessaoVotacao(Long id){
@@ -53,5 +64,26 @@ public class SessaoVotacaoServiceImpl {
 
         repository.save(sessaoVotacao);
     }
+
+    
+    public void verificaSeTempoSessaoExpirou(SessaoVotacao sessaoVotacao ){
+        LocalTime agora = LocalTime.now().withNano(0);
+
+        if (agora.equals(sessaoVotacao.getTempoFimSessao())) {
+            sessaoVotacao.setAtiva(false);
+            sessaoVotacao.setSituacao(Situacao.FECHADA);
+
+            if (sessaoVotacao.getVotosSim() > sessaoVotacao.getVotosNao()) {
+                sessaoVotacao.setResultado(Resultado.APROVADA);
+            }else if(sessaoVotacao.getVotosSim() < sessaoVotacao.getVotosNao()){
+                sessaoVotacao.setResultado(Resultado.REPROVADA);
+            }else if(sessaoVotacao.getVotosSim() == sessaoVotacao.getVotosNao()){
+                sessaoVotacao.setResultado(Resultado.EMPATE);
+            }
+
+            repository.save(sessaoVotacao);
+        }
+    }
+
 
 }

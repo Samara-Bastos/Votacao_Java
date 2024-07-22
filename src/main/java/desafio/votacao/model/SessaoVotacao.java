@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
 
 
@@ -47,12 +47,17 @@ public class SessaoVotacao {
     private Integer votosNao  = 0;
 
     @Column(name = "tempo_inicio")
-    private LocalDateTime tempoInicioSessao;
+    private LocalTime tempoInicioSessao;
 
     @Column(name = "tempo_fim")
-    private LocalDateTime tempoFimSessao;
+    private LocalTime tempoFimSessao;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Situacao situacao;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Resultado resultado;
+
 } 
