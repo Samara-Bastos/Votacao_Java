@@ -1,4 +1,4 @@
-# Projeto com Flyway
+# Sistema de Votação
 
 Esste projeto foi desenvolvido em java com spring boot e tem como seu principal objetivo a resolução desse DESAFIO
 
@@ -48,13 +48,22 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US006-2] Exibir todas as pautas
     - ✅ [US006-3] Exibir sessão de votação
     - ✅ [US006-4] Exibir votos
-
-
+-   [US007] Criar funcionalidade para dar resultado da pauta
+    -  [US007-1] Fechar a pauta após o tempo determinado
+    -  [US007-2] Gerar o resultado com base nos votos
+-   [US008] Permitir a edição e exclusão de pautas e usuários
+    -  [US008-1] Editar Pauta
+    -  [US008-2] Editar Usuário
+    -  [US008-3] Excluir Pauta
+    -  [US008-4] Excluir Usuário
+-   [US009] Fazer testes
+    -  [US009-1] Testes unitários
+    -  [US009-2] Teste de integração
  
 
 
 ## US's - EXTRA
 
--  [US00X] 
-    -  [US00X-1] 
+-  [US00X] Controle de usuário
+    -  [US00X-1] ...
     
