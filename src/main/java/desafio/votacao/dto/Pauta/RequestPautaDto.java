@@ -2,6 +2,7 @@ package desafio.votacao.dto.Pauta;
 
 import desafio.votacao.enums.Categoria;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record RequestPautaDto(
 
@@ -10,7 +11,7 @@ public record RequestPautaDto(
 
     String descricao,
 
-    @NotBlank(message  = "A categoria não pode estar vazia")
+    @NotNull(message  = "A categoria não pode estar vazia")
     Categoria categoria,
 
     Boolean ativaSessao,

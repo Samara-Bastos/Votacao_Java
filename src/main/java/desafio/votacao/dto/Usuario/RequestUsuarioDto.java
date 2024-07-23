@@ -9,6 +9,6 @@ public record RequestUsuarioDto(
     @NotBlank(message = "O nome não pode estar vazio")
     String nome,
 
-    @CPF(message = "O CPF precisa ser válido")
+    @CPF(message = "O CPF precisa ser válido e conter apenas numeros")
     String cpf
 ) {}
