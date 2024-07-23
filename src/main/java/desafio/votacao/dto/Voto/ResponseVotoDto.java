@@ -1,5 +1,7 @@
-package desafio.votacao.dto;
+package desafio.votacao.dto.Voto;
 
+import desafio.votacao.dto.SessaoVotacao.ResponseSessaoVotacaoDto;
+import desafio.votacao.dto.Usuario.ResponseUsuarioDto;
 import desafio.votacao.enums.TipoVoto;
 import desafio.votacao.model.Voto;
 

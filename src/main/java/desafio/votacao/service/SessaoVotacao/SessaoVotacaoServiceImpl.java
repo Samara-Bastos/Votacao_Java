@@ -1,4 +1,4 @@
-package desafio.votacao.service;
+package desafio.votacao.service.SessaoVotacao;
 
 import java.time.LocalTime;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import desafio.votacao.dto.RequestVotoDto;
+import desafio.votacao.dto.Voto.RequestVotoDto;
 import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
 import desafio.votacao.enums.TipoVoto;

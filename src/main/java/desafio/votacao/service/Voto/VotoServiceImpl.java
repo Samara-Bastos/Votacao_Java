@@ -1,10 +1,10 @@
-package desafio.votacao.service;
+package desafio.votacao.service.Voto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import desafio.votacao.dto.RequestVotoDto;
-import desafio.votacao.dto.ResponseVotoDto;
+import desafio.votacao.dto.Voto.RequestVotoDto;
+import desafio.votacao.dto.Voto.ResponseVotoDto;
 import desafio.votacao.exception.FindException;
 import desafio.votacao.exception.VotacaoFechadaException;
 import desafio.votacao.mapper.VotoMapper;
@@ -12,6 +12,8 @@ import desafio.votacao.model.SessaoVotacao;
 import desafio.votacao.model.Usuario;
 import desafio.votacao.model.Voto;
 import desafio.votacao.repository.VotoRepository;
+import desafio.votacao.service.SessaoVotacao.SessaoVotacaoServiceImpl;
+import desafio.votacao.service.Usuario.UsuarioServiceImpl;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class VotoServiceImpl {
     UsuarioServiceImpl usuarioService;
     
     
-    public void registrarVoto(Long id, RequestVotoDto dto){
+    public ResponseVotoDto registrarVoto(Long id, RequestVotoDto dto){
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.buscarSessaoVotacao(id).get();
 
         if (sessaoVotacao.getAtiva() == true) {
@@ -51,6 +53,8 @@ public class VotoServiceImpl {
             repository.save(voto);
 
             sessaoVotacaoService.contabilizarVotoNaSessao(id, dto);
+
+            return VotoMapper.INSTANCE.votoToDto(voto);
             
         }else{
             throw new VotacaoFechadaException("Não foi possivel votar, pois essa votação não está ativa");

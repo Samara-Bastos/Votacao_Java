@@ -1,4 +1,4 @@
-package desafio.votacao.dto;
+package desafio.votacao.dto.Voto;
 
 import desafio.votacao.enums.TipoVoto;
 

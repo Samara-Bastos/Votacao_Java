@@ -10,20 +10,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import desafio.votacao.dto.RequestVotoDto;
-import desafio.votacao.dto.ResponseVotoDto;
-import desafio.votacao.service.VotoServiceImpl;
+
+import desafio.votacao.dto.Voto.RequestVotoDto;
+import desafio.votacao.dto.Voto.ResponseVotoDto;
+import desafio.votacao.service.Voto.VotoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/voto")
 public class VotoController {
     
     @Autowired
-    VotoServiceImpl service;
+    VotoService service;
 
     @PostMapping("{id}")
-    public void registrarVoto(@PathVariable Long id, @RequestBody RequestVotoDto dto){
-        service.registrarVoto(id, dto);
+    public ResponseEntity<ResponseVotoDto> registrarVoto(@PathVariable Long id, @RequestBody @Valid RequestVotoDto dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registrarVoto(id, dto));
     }
 
     @GetMapping()

@@ -1,4 +1,4 @@
-package desafio.votacao.dto;
+package desafio.votacao.dto.SessaoVotacao;
 
 import java.time.LocalTime;
 

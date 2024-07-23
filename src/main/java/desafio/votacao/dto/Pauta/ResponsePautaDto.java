@@ -1,5 +1,6 @@
-package desafio.votacao.dto;
+package desafio.votacao.dto.Pauta;
 
+import desafio.votacao.dto.SessaoVotacao.ResponseSessaoVotacaoDto;
 import desafio.votacao.enums.Categoria;
 import desafio.votacao.model.Pauta;
 

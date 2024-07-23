@@ -9,23 +9,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import desafio.votacao.dto.RequestUsuarioDto;
-import desafio.votacao.dto.ResponseUsuarioDto;
-import desafio.votacao.service.UsuarioServiceImpl;
+
+import desafio.votacao.dto.Usuario.RequestUsuarioDto;
+import desafio.votacao.dto.Usuario.ResponseUsuarioDto;
+import desafio.votacao.service.Usuario.UsuarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
     
     @Autowired
-    UsuarioServiceImpl service;
+    UsuarioService service;
 
     @PostMapping()
-    public void criarUsuario(@RequestBody RequestUsuarioDto dto) {
-        service.create(dto);
+    public ResponseEntity<ResponseUsuarioDto> criarUsuario(@RequestBody @Valid RequestUsuarioDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
-    @GetMapping()
+    @GetMapping("/view")
     public ResponseEntity<List<ResponseUsuarioDto>> visualizar(){
         return ResponseEntity.status(HttpStatus.OK).body(service.visualizar());
     }

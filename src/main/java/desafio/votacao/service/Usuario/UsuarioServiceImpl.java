@@ -1,4 +1,4 @@
-package desafio.votacao.service;
+package desafio.votacao.service.Usuario;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import desafio.votacao.dto.RequestUsuarioDto;
-import desafio.votacao.dto.ResponseUsuarioDto;
+import desafio.votacao.dto.Usuario.RequestUsuarioDto;
+import desafio.votacao.dto.Usuario.ResponseUsuarioDto;
 import desafio.votacao.exception.FindException;
 import desafio.votacao.exception.NotFoundException;
 import desafio.votacao.mapper.UsuarioMapper;
@@ -21,7 +21,7 @@ public class UsuarioServiceImpl {
     UsuarioRepository repository;
 
 
-    public void create(RequestUsuarioDto dto){
+    public ResponseUsuarioDto create(RequestUsuarioDto dto){
         Optional<Usuario> usuarioReturn = repository.findByCpf(dto.cpf());
 
         if (usuarioReturn.isPresent()) {
@@ -31,6 +31,8 @@ public class UsuarioServiceImpl {
         Usuario usuario = UsuarioMapper.INSTANCE.dtoToUsuario(dto);
 
         repository.save(usuario);
+
+        return UsuarioMapper.INSTANCE.usuarioToDto(usuario);
     }
 
     public Optional<Usuario> buscarUsuario(String cpf){
