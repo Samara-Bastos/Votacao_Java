@@ -16,7 +16,7 @@ import desafio.votacao.repository.PautaRepository;
 import desafio.votacao.service.SessaoVotacao.SessaoVotacaoServiceImpl;
 
 @Service
-public class PautaServiceImpl {
+public class PautaServiceImpl implements PautaService {
     
     @Autowired
     PautaRepository repository;
@@ -24,6 +24,7 @@ public class PautaServiceImpl {
     @Autowired
     SessaoVotacaoServiceImpl sessaoVotacaoService;
 
+    @Override
     public ResponsePautaDto create(RequestPautaDto dto){
 
         Pauta pauta = PautaMapper.INSTANCE.dtoToPauta(dto);
@@ -40,11 +41,13 @@ public class PautaServiceImpl {
         
     }
 
+    @Override
     public List<ResponsePautaDto> visualizar(){
         return repository.findAll().stream().map(ResponsePautaDto::new).toList();
     };
 
 
+    @Override
     public ResponsePautaDto visualizarPautaSelecionada( Long id){
         Optional<Pauta> pautaReturn = repository.findById(id);
         

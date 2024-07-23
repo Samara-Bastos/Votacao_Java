@@ -19,7 +19,7 @@ import desafio.votacao.model.SessaoVotacao;
 import desafio.votacao.repository.SessaoVotacaoRepository;
 
 @Service
-public class SessaoVotacaoServiceImpl {
+public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     
     @Autowired
     SessaoVotacaoRepository repository;
@@ -27,6 +27,8 @@ public class SessaoVotacaoServiceImpl {
     //Criada uma instância do Scheduled com um pool de threads de tamanho 1, para especificar que apenas uma tarefa será executada por vez neste executor. 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
+
+    @Override
     public void abrirSessaoVotacao(int tempo, Pauta pauta){
 
         SessaoVotacao sessaoVotacao = SessaoVotacao.builder()
@@ -43,6 +45,7 @@ public class SessaoVotacaoServiceImpl {
         scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao), 1, 1, TimeUnit.MINUTES);
     }
 
+    @Override
     public Optional<SessaoVotacao> buscarSessaoVotacao(Long id){
         Optional<SessaoVotacao> sessaoVotacao = repository.findById(id);
         
@@ -53,6 +56,7 @@ public class SessaoVotacaoServiceImpl {
         return sessaoVotacao;
     }
 
+    @Override
     public void contabilizarVotoNaSessao(Long id, RequestVotoDto dto){
         SessaoVotacao sessaoVotacao = buscarSessaoVotacao(id).get();
 
@@ -65,7 +69,7 @@ public class SessaoVotacaoServiceImpl {
         repository.save(sessaoVotacao);
     }
 
-    
+    @Override
     public void verificaSeTempoSessaoExpirou(SessaoVotacao sessaoVotacao ){
         LocalTime agora = LocalTime.now().withNano(0);
 
