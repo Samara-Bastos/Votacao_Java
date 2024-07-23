@@ -18,7 +18,7 @@ import desafio.votacao.service.Usuario.UsuarioServiceImpl;
 import java.util.List;
 
 @Service
-public class VotoServiceImpl {
+public class VotoServiceImpl implements VotoService {
     
     @Autowired
     VotoRepository repository;
@@ -30,6 +30,7 @@ public class VotoServiceImpl {
     UsuarioServiceImpl usuarioService;
     
     
+    @Override
     public ResponseVotoDto registrarVoto(Long id, RequestVotoDto dto){
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.buscarSessaoVotacao(id).get();
 
@@ -61,6 +62,7 @@ public class VotoServiceImpl {
         }
     }
 
+    @Override
     public List<ResponseVotoDto> visualizar(){
         return repository.findAll().stream().map(ResponseVotoDto::new).toList();
     };

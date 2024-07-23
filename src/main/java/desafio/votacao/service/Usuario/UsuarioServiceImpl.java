@@ -15,12 +15,13 @@ import desafio.votacao.model.Usuario;
 import desafio.votacao.repository.UsuarioRepository;
 
 @Service
-public class UsuarioServiceImpl {
+public class UsuarioServiceImpl implements UsuarioService {
     
     @Autowired
     UsuarioRepository repository;
 
 
+    @Override
     public ResponseUsuarioDto create(RequestUsuarioDto dto){
         Optional<Usuario> usuarioReturn = repository.findByCpf(dto.cpf());
 
@@ -35,6 +36,7 @@ public class UsuarioServiceImpl {
         return UsuarioMapper.INSTANCE.usuarioToDto(usuario);
     }
 
+    @Override
     public Optional<Usuario> buscarUsuario(String cpf){
         Optional<Usuario> usuario = repository.findByCpf(cpf);
 
@@ -45,6 +47,7 @@ public class UsuarioServiceImpl {
         return usuario;
     }
 
+    @Override
     public List<ResponseUsuarioDto> visualizar(){
         return repository.findAll().stream().map(ResponseUsuarioDto::new).toList();
     };
