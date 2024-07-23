@@ -74,18 +74,20 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
         LocalTime agora = LocalTime.now().withNano(0);
 
         if (agora.equals(sessaoVotacao.getTempoFimSessao())) {
-            sessaoVotacao.setAtiva(false);
-            sessaoVotacao.setSituacao(Situacao.FECHADA);
+            SessaoVotacao sessaoReturn = buscarSessaoVotacao(sessaoVotacao.getId()).get();
 
-            if (sessaoVotacao.getVotosSim() > sessaoVotacao.getVotosNao()) {
-                sessaoVotacao.setResultado(Resultado.APROVADA);
-            }else if(sessaoVotacao.getVotosSim() < sessaoVotacao.getVotosNao()){
-                sessaoVotacao.setResultado(Resultado.REPROVADA);
-            }else if(sessaoVotacao.getVotosSim() == sessaoVotacao.getVotosNao()){
-                sessaoVotacao.setResultado(Resultado.EMPATE);
+            sessaoReturn.setAtiva(false);
+            sessaoReturn.setSituacao(Situacao.FECHADA);
+
+            if (sessaoReturn.getVotosSim() > sessaoReturn.getVotosNao()) {
+                sessaoReturn.setResultado(Resultado.APROVADA);
+            }else if(sessaoReturn.getVotosSim() < sessaoReturn.getVotosNao()){
+                sessaoReturn.setResultado(Resultado.REPROVADA);
+            }else if(sessaoReturn.getVotosSim() == sessaoReturn.getVotosNao()){
+                sessaoReturn.setResultado(Resultado.EMPATE);
             }
 
-            repository.save(sessaoVotacao);
+            repository.save(sessaoReturn);
         }
     }
 
