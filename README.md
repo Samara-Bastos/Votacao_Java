@@ -48,17 +48,18 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US006-2] Exibir todas as pautas
     - ✅ [US006-3] Exibir sessão de votação
     - ✅ [US006-4] Exibir votos
--   [US007] Criar funcionalidade para dar resultado da pauta
-    -  [US007-1] Fechar a pauta após o tempo determinado
-    -  [US007-2] Gerar o resultado com base nos votos
+- ✅  [US007] Criar funcionalidade para dar resultado da pauta
+    - ✅ [US007-1] Fechar a pauta após o tempo determinado
+    - ✅ [US007-2] Gerar o resultado com base nos votos
 -   [US008] Permitir a edição e exclusão de pautas e usuários
     -  [US008-1] Editar Pauta
     -  [US008-2] Editar Usuário
     -  [US008-3] Excluir Pauta
     -  [US008-4] Excluir Usuário
--   [US009] Fazer testes
-    -  [US009-1] Testes unitários
-    -  [US009-2] Teste de integração
+-   [US009] Criar validações e tratamento de erros
+-   [US010] Fazer testes
+    -  [US010-1] Testes unitários
+    -  [US010-2] Teste de integração
  
 
 
@@ -66,4 +67,20 @@ Após isso pode iniciar o projeto normalmente.
 
 -  [US00X] Controle de usuário
     -  [US00X-1] ...
-    
+
+
+## Tomadas de decisões 
+
+- Para verificar se o tempo da sessão expirou eu optei por criar uma tarefa que roda periodicamente e chama a função especificada.
+- Tomei essa decisão, pois não estava conseguindo enxergar um local adequado para chamar a minha função 'verificaSeTempoSessaoExpirou' já que o mesmo poderia expirar em qualquer momento.
+    - Eu usei o método scheduleAtFixedRate da classe ScheduledExecutorService, passando :
+    - verificaSeTempoSessaoExpirou(sessaoVotacao) : como a função/task a ser executada, 
+    - 1 : o minuto para a tarefa ser executada após a inicialização, 
+    - 1 : o periodo que a tarefa vai ser executada, ou seja, a cada 1 minuto o scheduler vai chamar minha função,
+    - TimeUnit.MINUTES : A unidade de tempo 
+
+
+- Para gerenciar a base de dados eu optei por aplicar o flyway.
+    - O flyway é uma ferramenta de versionamento de banco de dados, que além de criar as tabelas através das migrações ele também mantém um histórico de todas as modificações. 
+    - Quando ele é executado, ele verifica o estado atual do banco de dados e aplica as migrações necessárias para levá-lo à versão mais recente.
+
