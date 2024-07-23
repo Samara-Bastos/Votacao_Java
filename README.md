@@ -51,15 +51,10 @@ Após isso pode iniciar o projeto normalmente.
 - ✅  [US007] Criar funcionalidade para dar resultado da pauta
     - ✅ [US007-1] Fechar a pauta após o tempo determinado
     - ✅ [US007-2] Gerar o resultado com base nos votos
--   [US008] Permitir a edição e exclusão de pautas e usuários
-    -  [US008-1] Editar Pauta
-    -  [US008-2] Editar Usuário
-    -  [US008-3] Excluir Pauta
-    -  [US008-4] Excluir Usuário
--   [US009] Criar validações e tratamento de erros
--   [US010] Fazer testes
-    -  [US010-1] Testes unitários
-    -  [US010-2] Teste de integração
+-   [US008] Criar validações e tratamento de erros
+-   [US009] Fazer testes
+    -  [US009-1] Testes unitários
+    -  [US009-2] Teste de integração
  
 
 
@@ -83,4 +78,3 @@ Após isso pode iniciar o projeto normalmente.
 - Para gerenciar a base de dados eu optei por aplicar o flyway.
     - O flyway é uma ferramenta de versionamento de banco de dados, que além de criar as tabelas através das migrações ele também mantém um histórico de todas as modificações. 
     - Quando ele é executado, ele verifica o estado atual do banco de dados e aplica as migrações necessárias para levá-lo à versão mais recente.
-
