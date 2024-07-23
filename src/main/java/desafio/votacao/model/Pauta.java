@@ -1,5 +1,6 @@
 package desafio.votacao.model;
 
+import java.time.LocalDateTime;
 import desafio.votacao.enums.Categoria;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,4 +41,7 @@ public class Pauta {
 
     @Transient
     private Boolean ativaSessao;
+
+    @Transient
+    private LocalDateTime tempoSessao;
 }

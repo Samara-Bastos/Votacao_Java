@@ -1,6 +1,8 @@
 package desafio.votacao.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
 import desafio.votacao.model.SessaoVotacao;
 
@@ -12,13 +14,15 @@ public record ResponseSessaoVotacaoDto(
 
     Integer votosNao,
 
-    LocalDateTime tempoInicioSessao,
+    LocalTime tempoInicioSessao,
 
-    LocalDateTime tempoFimSessao,
+    LocalTime tempoFimSessao,
 
-    Situacao situacao
+    Situacao situacao,
+
+    Resultado resultado
 ) {
     public ResponseSessaoVotacaoDto(SessaoVotacao sessaoVotacao){
-        this(sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao());
+        this(sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao(), sessaoVotacao.getResultado());
     }
 }
