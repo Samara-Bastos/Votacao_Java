@@ -52,9 +52,8 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US007-1] Fechar a pauta após o tempo determinado
     - ✅ [US007-2] Gerar o resultado com base nos votos
 - ✅  [US008] Criar validações e tratamento de erros
--   [US009] Fazer testes
-    -  [US009-1] Testes unitários
-    -  [US009-2] Teste de integração
+- ✅  [US009] Fazer testes
+    - ✅ [US009-1] Testes unitários
  
 
 
