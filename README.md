@@ -99,6 +99,3 @@ GET : /pauta/view/:id
 
 POST : /voto/:id
 - Registra o voto na pauta da sessão especificada no id
-
-GET : /voto 
-- Visualização de todos os votos registrados
