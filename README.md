@@ -6,9 +6,10 @@ Esste projeto foi desenvolvido em java com spring boot e tem como seu principal 
 
 O projeto utiliza o Docker para subir um banco PostgreSQL, por isso ao abrir o mesmo execute:
 
-docker compose up -d # Sobe o container do PostgreSQL
+- docker compose up -d # Sobe o container do PostgreSQL
+- ./gradlew bootRun ou gradlew.bat bootRun # Inicia o projeto
+- http://localhost:8080/swagger-ui/index.html # Para fazer suas requisições
 
-Após isso pode iniciar o projeto normalmente.
 
 ## Dependências
 
