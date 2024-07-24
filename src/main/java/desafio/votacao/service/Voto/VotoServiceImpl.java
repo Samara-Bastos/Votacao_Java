@@ -62,8 +62,4 @@ public class VotoServiceImpl implements VotoService {
         }
     }
 
-    @Override
-    public List<ResponseVotoDto> visualizar(){
-        return repository.findAll().stream().map(ResponseVotoDto::new).toList();
-    };
 }
