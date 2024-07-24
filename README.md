@@ -52,9 +52,8 @@ Após isso pode iniciar o projeto normalmente.
     - ✅ [US007-1] Fechar a pauta após o tempo determinado
     - ✅ [US007-2] Gerar o resultado com base nos votos
 - ✅  [US008] Criar validações e tratamento de erros
--   [US009] Fazer testes
-    -  [US009-1] Testes unitários
-    -  [US009-2] Teste de integração
+- ✅  [US009] Fazer testes
+    - ✅ [US009-1] Testes unitários
  
 
 
@@ -99,6 +98,3 @@ GET : /pauta/view/:id
 
 POST : /voto/:id
 - Registra o voto na pauta da sessão especificada no id
-
-GET : /voto 
-- Visualização de todos os votos registrados

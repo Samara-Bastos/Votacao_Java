@@ -1,8 +1,8 @@
 CREATE TABLE Pauta (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(255),
+    titulo VARCHAR(255) NOT NULL,
     descricao TEXT,
-    categoria VARCHAR(30)
+    categoria VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Sessao_Votacao (
@@ -17,15 +17,15 @@ CREATE TABLE Sessao_Votacao (
 
 CREATE TABLE Usuario (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(255),
-    cpf VARCHAR(11) UNIQUE
+    nome VARCHAR(255) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL
 );
 
 CREATE TABLE Voto (
     id SERIAL PRIMARY KEY,
-    tipo VARCHAR(3),
-    usuario_id INTEGER,
-    sessao_votacao_id INTEGER,
+    tipo VARCHAR(3) NOT NULL,
+    usuario_id INTEGER NOT NULL,
+    sessao_votacao_id INTEGER NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
     FOREIGN KEY (sessao_votacao_id) REFERENCES Sessao_Votacao(id)
 );
