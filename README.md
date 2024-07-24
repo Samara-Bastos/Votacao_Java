@@ -1,6 +1,6 @@
 # Sistema de Votação
 
-Esste projeto foi desenvolvido em java com spring boot e tem como seu principal objetivo a resolução desse DESAFIO
+Esste projeto foi desenvolvido em java com spring boot e tem como seu principal objetivo a resolução desse [DESAFIO](https://github.com/Samara-Bastos/votacao-react-java)
 
 ## Executar 
 
