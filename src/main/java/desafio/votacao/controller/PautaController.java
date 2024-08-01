@@ -35,7 +35,7 @@ public class PautaController {
     }
 
     @GetMapping("/view/{id}")
-    public ResponseEntity<ResponsePautaDto> visualizarPautaSelecionada(@PathVariable Long id){
+    public ResponseEntity<ResponsePautaDto> visualizarPautaSelecionada(@PathVariable("id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.visualizarPautaSelecionada(id));
     }
 

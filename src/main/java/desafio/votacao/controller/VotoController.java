@@ -23,7 +23,7 @@ public class VotoController {
     VotoService service;
 
     @PostMapping("{id}")
-    public ResponseEntity<ResponseVotoDto> registrarVoto(@PathVariable Long id, @RequestBody @Valid RequestVotoDto dto){
+    public ResponseEntity<ResponseVotoDto> registrarVoto(@PathVariable("id") Long id, @RequestBody @Valid RequestVotoDto dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrarVoto(id, dto));
     }
 

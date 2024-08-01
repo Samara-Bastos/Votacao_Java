@@ -34,32 +34,31 @@ public class VotoServiceImpl implements VotoService {
     public ResponseVotoDto registrarVoto(Long id, RequestVotoDto dto){
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.buscarSessaoVotacao(id).get();
 
-        if (sessaoVotacao.getAtiva() == true) {
-            Usuario usuario = usuarioService.buscarUsuario(dto.cpf()).get();
-
-            //Faz uma busca para verificar se esse usuario já realizou algum voto
-            List<Voto> ListReturn = repository.findByUsuario(usuario);
-
-            //Se ele já tiver votado, verifica se o voto que esse usuario fez foi na sessão da votação atual
-            for (Voto votoReturn : ListReturn) {
-                if (votoReturn.getVotacao() == sessaoVotacao) {
-                    throw new FindException("Esse usuário ja votou nessa pauta");
-                }   
-            }
-
-            Voto voto = VotoMapper.INSTANCE.dtoToVoto(dto);
-            
-            voto.setUsuario(usuario);
-            voto.setVotacao(sessaoVotacao);
-            repository.save(voto);
-
-            sessaoVotacaoService.contabilizarVotoNaSessao(id, dto);
-
-            return VotoMapper.INSTANCE.votoToDto(voto);
-            
-        }else{
+        if (sessaoVotacao.getAtiva() == false) {
             throw new VotacaoFechadaException("Não foi possivel votar, pois essa votação não está ativa");
         }
-    }
 
+        Usuario usuario = usuarioService.buscarUsuario(dto.cpf()).get();
+
+        //Faz uma busca para verificar se esse usuario já realizou algum voto
+        List<Voto> ListReturn = repository.findByUsuario(usuario);
+
+        //Se ele já tiver votado, verifica se o voto que esse usuario fez foi na sessão da votação atual
+        for (Voto votoReturn : ListReturn) {
+            if (votoReturn.getVotacao() == sessaoVotacao) {
+                throw new FindException("Esse usuário ja votou nessa pauta");
+            }   
+        }
+
+        Voto voto = VotoMapper.INSTANCE.dtoToVoto(dto);
+        
+        voto.setUsuario(usuario);
+        voto.setVotacao(sessaoVotacao);
+        repository.save(voto);
+
+        sessaoVotacaoService.contabilizarVotoNaSessao(id, dto);
+
+        return VotoMapper.INSTANCE.votoToDto(voto);
+            
+    }
 }
