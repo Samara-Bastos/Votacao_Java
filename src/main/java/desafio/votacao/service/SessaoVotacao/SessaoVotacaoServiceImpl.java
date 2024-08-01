@@ -2,13 +2,10 @@ package desafio.votacao.service.SessaoVotacao;
 
 import java.time.LocalTime;
 import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import desafio.votacao.dto.Voto.RequestVotoDto;
 import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
@@ -24,9 +21,6 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     @Autowired
     SessaoVotacaoRepository repository;
 
-    //Criada uma instância do Scheduled com um pool de threads de tamanho 1, para especificar que apenas uma tarefa será executada por vez neste executor. 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
 
     @Override
     public void abrirSessaoVotacao(int tempo, Pauta pauta){
@@ -40,9 +34,6 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                                                     .build();  
 
         repository.save(sessaoVotacao);
-
-        // Agenda a tarefa para chamar a função a cada minuto
-        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao), 1, 1, TimeUnit.MINUTES);
     }
 
     @Override
@@ -69,25 +60,29 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
         repository.save(sessaoVotacao);
     }
 
+    
     @Override
-    public void verificaSeTempoSessaoExpirou(SessaoVotacao sessaoVotacao ){
+    @Scheduled(fixedRate = 1000) 
+    public void verificaSeTempoSessaoExpirou(){
         LocalTime agora = LocalTime.now().withNano(0);
+        List<SessaoVotacao> sessaoVotacaoList = repository.findBySessaoVotacaoAtiva();
 
-        if (agora.equals(sessaoVotacao.getTempoFimSessao())) {
-            SessaoVotacao sessaoReturn = buscarSessaoVotacao(sessaoVotacao.getId()).get();
-
-            sessaoReturn.setAtiva(false);
-            sessaoReturn.setSituacao(Situacao.FECHADA);
-
-            if (sessaoReturn.getVotosSim() > sessaoReturn.getVotosNao()) {
-                sessaoReturn.setResultado(Resultado.APROVADA);
-            }else if(sessaoReturn.getVotosSim() < sessaoReturn.getVotosNao()){
-                sessaoReturn.setResultado(Resultado.REPROVADA);
-            }else if(sessaoReturn.getVotosSim() == sessaoReturn.getVotosNao()){
-                sessaoReturn.setResultado(Resultado.EMPATE);
+        for(SessaoVotacao sessaoReturn : sessaoVotacaoList){
+            if (agora.equals(sessaoReturn.getTempoFimSessao())) {
+            
+                sessaoReturn.setAtiva(false);
+                sessaoReturn.setSituacao(Situacao.FECHADA);
+    
+                if (sessaoReturn.getVotosSim() > sessaoReturn.getVotosNao()) {
+                    sessaoReturn.setResultado(Resultado.APROVADA);
+                }else if(sessaoReturn.getVotosSim() < sessaoReturn.getVotosNao()){
+                    sessaoReturn.setResultado(Resultado.REPROVADA);
+                }else if(sessaoReturn.getVotosSim() == sessaoReturn.getVotosNao()){
+                    sessaoReturn.setResultado(Resultado.EMPATE);
+                }
+    
+                repository.save(sessaoReturn);
             }
-
-            repository.save(sessaoReturn);
         }
     }
 

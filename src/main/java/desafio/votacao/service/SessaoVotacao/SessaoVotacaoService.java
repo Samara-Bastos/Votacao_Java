@@ -11,5 +11,5 @@ public interface SessaoVotacaoService {
     void abrirSessaoVotacao(int tempo, Pauta pauta);
     Optional<SessaoVotacao> buscarSessaoVotacao(Long id);
     void contabilizarVotoNaSessao(Long id, RequestVotoDto dto);
-    void verificaSeTempoSessaoExpirou(SessaoVotacao sessaoVotacao );
+    void verificaSeTempoSessaoExpirou();
 }
