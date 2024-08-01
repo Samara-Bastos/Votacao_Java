@@ -7,6 +7,7 @@ import desafio.votacao.enums.Situacao;
 import desafio.votacao.model.SessaoVotacao;
 
 public record ResponseSessaoVotacaoDto(
+    Long idVotacao,
 
     Boolean ativa,
 
@@ -23,6 +24,6 @@ public record ResponseSessaoVotacaoDto(
     Resultado resultado
 ) {
     public ResponseSessaoVotacaoDto(SessaoVotacao sessaoVotacao){
-        this(sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao(), sessaoVotacao.getResultado());
+        this(sessaoVotacao.getId(), sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao(), sessaoVotacao.getResultado());
     }
 }
