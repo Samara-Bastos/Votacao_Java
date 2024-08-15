@@ -1,16 +1,17 @@
 package desafio.votacao.service.SessaoVotacao;
 
 import java.time.LocalTime;
-import java.util.Optional;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import desafio.votacao.dto.Voto.RequestVotoDto;
 import desafio.votacao.enums.Resultado;
 import desafio.votacao.enums.Situacao;
 import desafio.votacao.enums.TipoVoto;
 import desafio.votacao.exception.NotFoundException;
+import desafio.votacao.exception.TempoInvalidoException;
 import desafio.votacao.model.Pauta;
 import desafio.votacao.model.SessaoVotacao;
 import desafio.votacao.repository.SessaoVotacaoRepository;
@@ -21,10 +22,14 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     @Autowired
     SessaoVotacaoRepository repository;
 
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
-    public void abrirSessaoVotacao(int tempo, Pauta pauta){
-
+    public void abrirSessaoVotacao(boolean ativaSessao, int tempo, Pauta pauta){
+        if (!ativaSessao) {
+            return;
+        }
+        verificaSeTempoSessaoEValido(tempo);
         SessaoVotacao sessaoVotacao = SessaoVotacao.builder()
                                                     .ativa(true)
                                                     .pauta(pauta)
@@ -34,57 +39,56 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                                                     .build();  
 
         repository.save(sessaoVotacao);
+        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao.getId(),sessaoVotacao.getTempoFimSessao()), 1, 1, TimeUnit.MINUTES);
     }
 
     @Override
-    public Optional<SessaoVotacao> buscarSessaoVotacao(Long id){
-        Optional<SessaoVotacao> sessaoVotacao = repository.findById(id);
-        
-        if(sessaoVotacao.isEmpty()){
-            throw new NotFoundException("Não foi possivel encontrar essa sessão de votação");
-        }
-
-        return sessaoVotacao;
+    public SessaoVotacao buscarSessaoVotacao(Long id){
+        return repository.findById(id)
+        .orElseThrow(() -> new NotFoundException("Não foi possivel encontrar essa sessão de votação"));
     }
 
     @Override
-    public void contabilizarVotoNaSessao(Long id, RequestVotoDto dto){
-        SessaoVotacao sessaoVotacao = buscarSessaoVotacao(id).get();
-
-        if ((dto.tipo() == TipoVoto.SIM)) {
+    public void contabilizarVotoNaSessao(SessaoVotacao sessaoVotacao, RequestVotoDto voto){
+        if ((voto.tipo() == TipoVoto.SIM)) {
             sessaoVotacao.setVotosSim(sessaoVotacao.getVotosSim() + 1);
-        }else if (dto.tipo() == TipoVoto.NAO) {
+        }else {
             sessaoVotacao.setVotosNao(sessaoVotacao.getVotosNao() + 1);
         }
-
         repository.save(sessaoVotacao);
     }
 
-    
     @Override
-    @Scheduled(fixedRate = 1000) 
-    public void verificaSeTempoSessaoExpirou(){
+    public void verificaSeTempoSessaoExpirou(Long id, LocalTime tempoFimSessao){
         LocalTime agora = LocalTime.now().withNano(0);
-        List<SessaoVotacao> sessaoVotacaoList = repository.findBySessaoVotacaoAtiva();
-
-        for(SessaoVotacao sessaoReturn : sessaoVotacaoList){
-            if (agora.equals(sessaoReturn.getTempoFimSessao())) {
-            
-                sessaoReturn.setAtiva(false);
-                sessaoReturn.setSituacao(Situacao.FECHADA);
-    
-                if (sessaoReturn.getVotosSim() > sessaoReturn.getVotosNao()) {
-                    sessaoReturn.setResultado(Resultado.APROVADA);
-                }else if(sessaoReturn.getVotosSim() < sessaoReturn.getVotosNao()){
-                    sessaoReturn.setResultado(Resultado.REPROVADA);
-                }else if(sessaoReturn.getVotosSim() == sessaoReturn.getVotosNao()){
-                    sessaoReturn.setResultado(Resultado.EMPATE);
-                }
-    
-                repository.save(sessaoReturn);
-            }
+        if (!agora.equals(tempoFimSessao)) {
+            return;
         }
+        SessaoVotacao sessaoBuscada = buscarSessaoVotacao(id);
+        geraResultadoDaSessaoVotacao(sessaoBuscada);
+        fechaSessaoVotacaoAtiva(sessaoBuscada);            
+    }
+    
+    private void fechaSessaoVotacaoAtiva(SessaoVotacao sessaoVotacao){
+        sessaoVotacao.setAtiva(false);
+        sessaoVotacao.setSituacao(Situacao.FECHADA);
+        repository.save(sessaoVotacao);
     }
 
+    private void geraResultadoDaSessaoVotacao(SessaoVotacao sessaoVotacao){
+        if (sessaoVotacao.getVotosSim() > sessaoVotacao.getVotosNao()) {
+            sessaoVotacao.setResultado(Resultado.APROVADA);
+        }else if(sessaoVotacao.getVotosSim() < sessaoVotacao.getVotosNao()){
+            sessaoVotacao.setResultado(Resultado.REPROVADA);
+        }else if(sessaoVotacao.getVotosSim() == sessaoVotacao.getVotosNao()){
+            sessaoVotacao.setResultado(Resultado.EMPATE);
+        }
+        repository.save(sessaoVotacao);   
+    }
 
+    private void verificaSeTempoSessaoEValido(int tempo){
+        if (tempo <= 0) {
+            throw new TempoInvalidoException("O tempo de sessão não pode ser zero ou menor que zero");
+        }
+    }
 }

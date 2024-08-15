@@ -2,10 +2,8 @@ package desafio.votacao.service.Usuario;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import desafio.votacao.dto.Usuario.RequestUsuarioDto;
 import desafio.votacao.dto.Usuario.ResponseUsuarioDto;
 import desafio.votacao.exception.FindException;
@@ -20,35 +18,29 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     UsuarioRepository repository;
 
-
     @Override
-    public ResponseUsuarioDto create(RequestUsuarioDto dto){
-        Optional<Usuario> usuarioReturn = repository.findByCpf(dto.cpf());
-
-        if (usuarioReturn.isPresent()) {
-           throw new FindException("Já existe um usuário cadastrado com esse CPF");
-        }
-
+    public ResponseUsuarioDto registrar(RequestUsuarioDto dto){
+        verificaSeJaExisteUsuarioComEsseCpf(dto.cpf());
         Usuario usuario = UsuarioMapper.INSTANCE.dtoToUsuario(dto);
-
         repository.save(usuario);
-
         return UsuarioMapper.INSTANCE.usuarioToDto(usuario);
     }
 
     @Override
-    public Optional<Usuario> buscarUsuario(String cpf){
-        Optional<Usuario> usuario = repository.findByCpf(cpf);
-
-        if (usuario.isEmpty()) {
-           throw new NotFoundException("Usuário não encontrado");
-        }
-
-        return usuario;
+    public Usuario buscarUsuarioPorCpf(String cpf){
+        return repository.findByCpf(cpf)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
     }
 
     @Override
     public List<ResponseUsuarioDto> visualizar(){
         return repository.findAll().stream().map(ResponseUsuarioDto::new).toList();
     };
+
+    private void verificaSeJaExisteUsuarioComEsseCpf(String cpf){
+        Optional<Usuario> usuario = repository.findByCpf(cpf);
+        if (usuario.isPresent()) {
+           throw new FindException("Já existe um usuário cadastrado com esse CPF");
+        }
+    }
 }

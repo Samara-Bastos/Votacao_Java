@@ -26,15 +26,15 @@ public class PautaController {
 
     @PostMapping()
     public ResponseEntity<ResponsePautaDto> criarPauta(@RequestBody @Valid RequestPautaDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(dto));
     }
     
-    @GetMapping("/view")
+    @GetMapping("/visualizar")
     public ResponseEntity<List<ResponsePautaDto>> visualizar(){
         return ResponseEntity.status(HttpStatus.OK).body(service.visualizar());
     }
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/visualizar/{id}")
     public ResponseEntity<ResponsePautaDto> visualizarPautaSelecionada(@PathVariable("id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.visualizarPautaSelecionada(id));
     }
