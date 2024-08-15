@@ -39,7 +39,7 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                                                     .build();  
 
         repository.save(sessaoVotacao);
-        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao.getId(),sessaoVotacao.getTempoFimSessao()), 1, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao.getIdVotacao(),sessaoVotacao.getTempoFimSessao()), 1, 1, TimeUnit.MINUTES);
     }
 
     @Override

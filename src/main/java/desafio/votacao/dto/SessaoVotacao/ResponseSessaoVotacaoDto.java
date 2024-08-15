@@ -24,6 +24,6 @@ public record ResponseSessaoVotacaoDto(
     Resultado resultado
 ) {
     public ResponseSessaoVotacaoDto(SessaoVotacao sessaoVotacao){
-        this(sessaoVotacao.getId(), sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao(), sessaoVotacao.getResultado());
+        this(sessaoVotacao.getIdVotacao(), sessaoVotacao.getAtiva(), sessaoVotacao.getVotosSim(), sessaoVotacao.getVotosNao(), sessaoVotacao.getTempoInicioSessao(), sessaoVotacao.getTempoFimSessao(), sessaoVotacao.getSituacao(), sessaoVotacao.getResultado());
     }
 }
