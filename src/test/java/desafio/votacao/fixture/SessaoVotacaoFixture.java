@@ -8,6 +8,7 @@ import desafio.votacao.model.SessaoVotacao;
 public class SessaoVotacaoFixture {
     public static SessaoVotacao sessaoVotacaoValida(){
         return SessaoVotacao.builder()
+                            .idVotacao(1L)
                             .ativa(true)
                             .votosSim(3)
                             .votosNao(1)

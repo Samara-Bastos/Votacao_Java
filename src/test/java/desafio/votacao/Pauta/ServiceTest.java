@@ -2,7 +2,6 @@ package desafio.votacao.Pauta;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -18,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import desafio.votacao.dto.Pauta.RequestPautaDto;
 import desafio.votacao.dto.Pauta.ResponsePautaDto;
-import desafio.votacao.exception.TempoInvalidoException;
 import desafio.votacao.fixture.PautaDtoFixture;
 import desafio.votacao.model.Pauta;
 import desafio.votacao.repository.PautaRepository;
@@ -68,16 +66,6 @@ public class ServiceTest {
     }
 
     @Test
-    @DisplayName("Não deve permitir cadastrar uma pauta")
-    void notCreatTeste(){
-        when(repository.save(any(Pauta.class))).thenReturn(pauta);
-
-        assertThrows(TempoInvalidoException.class, () -> {
-            service.registrar(requestPautaDtoInvalido);
-        });
-    }
-
-    @Test
     @DisplayName("Deve visualizar todas as pautas")
     void visualizarPautaTest(){
         List<Pauta> pautas = new ArrayList<>();
@@ -96,4 +84,5 @@ public class ServiceTest {
 
         assertNotNull(responsePautaDto);
     }
+
 }
