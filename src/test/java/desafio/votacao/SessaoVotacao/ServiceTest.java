@@ -48,7 +48,7 @@ public class ServiceTest {
         pauta = new Pauta();
         pauta.setId(1L);
 
-        service.abrirSessaoVotacao(2, pauta);
+        service.abrirSessaoVotacao(true, 2, pauta);
         verify(repository, times(1)).save(any(SessaoVotacao.class));
     }
 
@@ -58,10 +58,10 @@ public class ServiceTest {
     void buscarSessaoVotacaoTest(){
         when(repository.findById(1L)).thenReturn(Optional.of(sessaoVotacao));
 
-        Optional<SessaoVotacao> sessaoVotacaoReturn = service.buscarSessaoVotacao(1L);
+        SessaoVotacao sessaoVotacaoReturn = service.buscarSessaoVotacao(1L);
 
         assertNotNull(sessaoVotacaoReturn);
-        assertEquals(sessaoVotacao, sessaoVotacaoReturn.get());
+        assertEquals(sessaoVotacao, sessaoVotacaoReturn);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class ServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(sessaoVotacao));
         RequestVotoDto voto = VotoDtoFixture.votoDtoValido();
 
-        service.contabilizarVotoNaSessao(1L, voto);
+        service.contabilizarVotoNaSessao(sessaoVotacao, voto);
         verify(repository, times(1)).save(sessaoVotacao);
     }
 }

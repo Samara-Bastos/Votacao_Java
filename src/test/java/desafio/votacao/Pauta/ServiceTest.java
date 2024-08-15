@@ -59,7 +59,7 @@ public class ServiceTest {
     void createTest(){
         when(repository.save(any(Pauta.class))).thenReturn(pauta);
 
-        responsePautaDto = service.create(requestPautaDtoValido);
+        responsePautaDto = service.registrar(requestPautaDtoValido);
 
         assertNotNull(responsePautaDto);
         assertEquals(responsePautaDto.titulo(), requestPautaDtoValido.titulo());
@@ -73,7 +73,7 @@ public class ServiceTest {
         when(repository.save(any(Pauta.class))).thenReturn(pauta);
 
         assertThrows(TempoInvalidoException.class, () -> {
-            service.create(requestPautaDtoInvalido);
+            service.registrar(requestPautaDtoInvalido);
         });
     }
 
