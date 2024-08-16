@@ -6,7 +6,7 @@ import desafio.votacao.dto.Pauta.ResponsePautaDto;
 
 public interface PautaService {
     
-    ResponsePautaDto create(RequestPautaDto dto);
+    ResponsePautaDto registrar(RequestPautaDto dto);
     List<ResponsePautaDto> visualizar();
     ResponsePautaDto visualizarPautaSelecionada( Long id);
 }

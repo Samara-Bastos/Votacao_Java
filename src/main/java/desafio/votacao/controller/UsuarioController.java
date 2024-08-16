@@ -25,10 +25,10 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<ResponseUsuarioDto> criarUsuario(@RequestBody @Valid RequestUsuarioDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(dto));
     }
 
-    @GetMapping("/view")
+    @GetMapping("/visualizar")
     public ResponseEntity<List<ResponseUsuarioDto>> visualizar(){
         return ResponseEntity.status(HttpStatus.OK).body(service.visualizar());
     }

@@ -28,8 +28,9 @@ import desafio.votacao.enums.Situacao;
 public class SessaoVotacao {
 
     @Id
+    @Column(name = "idvotacao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idVotacao;
 
     @Column
     private Boolean ativa;

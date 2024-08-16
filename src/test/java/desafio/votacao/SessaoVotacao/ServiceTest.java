@@ -15,10 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import desafio.votacao.dto.Voto.RequestVotoDto;
 import desafio.votacao.exception.NotFoundException;
 import desafio.votacao.fixture.SessaoVotacaoFixture;
-import desafio.votacao.fixture.VotoDtoFixture;
 import desafio.votacao.model.Pauta;
 import desafio.votacao.model.SessaoVotacao;
 import desafio.votacao.repository.SessaoVotacaoRepository;
@@ -48,7 +46,7 @@ public class ServiceTest {
         pauta = new Pauta();
         pauta.setId(1L);
 
-        service.abrirSessaoVotacao(2, pauta);
+        service.abrirSessaoVotacao(true, 2, pauta);
         verify(repository, times(1)).save(any(SessaoVotacao.class));
     }
 
@@ -58,10 +56,10 @@ public class ServiceTest {
     void buscarSessaoVotacaoTest(){
         when(repository.findById(1L)).thenReturn(Optional.of(sessaoVotacao));
 
-        Optional<SessaoVotacao> sessaoVotacaoReturn = service.buscarSessaoVotacao(1L);
+        SessaoVotacao sessaoVotacaoReturn = service.buscarSessaoVotacao(1L);
 
         assertNotNull(sessaoVotacaoReturn);
-        assertEquals(sessaoVotacao, sessaoVotacaoReturn.get());
+        assertEquals(sessaoVotacao, sessaoVotacaoReturn);
     }
 
     @Test
@@ -73,14 +71,5 @@ public class ServiceTest {
             service.buscarSessaoVotacao(1L);
         });
     }
-
-    @Test
-    @DisplayName("Deve contabilizar o voto na sessão e salvar")
-    void contabilizarVotoNaSessaoTest(){
-        when(repository.findById(1L)).thenReturn(Optional.of(sessaoVotacao));
-        RequestVotoDto voto = VotoDtoFixture.votoDtoValido();
-
-        service.contabilizarVotoNaSessao(1L, voto);
-        verify(repository, times(1)).save(sessaoVotacao);
-    }
+        
 }

@@ -9,7 +9,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,8 +63,8 @@ public class ServiceTest {
     @Test
     @DisplayName("Deve registrar um voto")
     void registrarVoto(){
-        when(sessaoVotacaoService.buscarSessaoVotacao(anyLong())).thenReturn(Optional.of(sessaoVotacao));
-        when(usuarioService.buscarUsuario(anyString())).thenReturn(Optional.of(usuario));
+        when(sessaoVotacaoService.buscarSessaoVotacao(anyLong())).thenReturn(sessaoVotacao);
+        when(usuarioService.buscarUsuarioPorCpf(anyString())).thenReturn(usuario);
         when(repository.findByUsuario(any(Usuario.class))).thenReturn(new ArrayList<>());
 
         response = service.registrarVoto(1L, requestVotoDtoValido);
@@ -80,7 +79,7 @@ public class ServiceTest {
     void naoRegistrarVoto(){
         sessaoVotacao.setAtiva(false);
 
-        when(sessaoVotacaoService.buscarSessaoVotacao(anyLong())).thenReturn(Optional.of(sessaoVotacao));
+        when(sessaoVotacaoService.buscarSessaoVotacao(anyLong())).thenReturn(sessaoVotacao);
 
         assertThrows(VotacaoFechadaException.class, () -> {
             service.registrarVoto(1L, requestVotoDtoValido);

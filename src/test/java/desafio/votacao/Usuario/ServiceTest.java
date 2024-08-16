@@ -50,7 +50,7 @@ public class ServiceTest {
     @DisplayName("Deve cadastrar um usuario")
     void createTest(){
         when(repository.findByCpf(anyString())).thenReturn(Optional.empty());
-        response = service.create(requestUsuarioDtoValido);
+        response = service.registrar(requestUsuarioDtoValido);
 
         assertNotNull(response);
         verify(repository, times(1)).save(any(Usuario.class));
@@ -64,10 +64,10 @@ public class ServiceTest {
 
         when(repository.findByCpf(anyString())).thenReturn(Optional.of(usuario));
 
-        Optional<Usuario> usuarioReturn = service.buscarUsuario(requestUsuarioDtoValido.cpf());
+        Usuario usuarioReturn = service.buscarUsuarioPorCpf(requestUsuarioDtoValido.cpf());
 
         assertNotNull(usuarioReturn);
-        assertEquals(usuario.getCpf(), usuarioReturn.get().getCpf());
+        assertEquals(usuario.getCpf(), usuarioReturn.getCpf());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ServiceTest {
          when(repository.findByCpf(anyString())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> {
-            service.buscarUsuario(requestUsuarioDtoValido.cpf());
+            service.buscarUsuarioPorCpf(requestUsuarioDtoValido.cpf());
         });
     }
 
