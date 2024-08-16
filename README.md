@@ -68,7 +68,11 @@ O projeto utiliza o Docker para subir um banco PostgreSQL, por isso ao abrir o m
 
 - Para verificar se o tempo da sessão expirou eu optei por criar uma tarefa que roda periodicamente e chama a função especificada.
 - Tomei essa decisão, pois não estava conseguindo enxergar um local adequado para chamar a minha função 'verificaSeTempoSessaoExpirou' já que o mesmo poderia expirar em qualquer momento.
-    - Eu usei a anotação @EnableScheduling e @Scheduled para configurar essa tarefa e passei o tempo '1000' (milesegundos) para ser executada a cada segundo.
+    - Eu usei o método scheduleAtFixedRate da classe ScheduledExecutorService, passando :
+    - verificaSeTempoSessaoExpirou(sessaoVotacao) : como a função/task a ser executada,
+    - 1 : o minuto para a tarefa ser executada após a inicialização,
+    - 1 : o periodo que a tarefa vai ser executada, ou seja, a cada 1 minuto o scheduler vai chamar minha função,
+    - TimeUnit.MINUTES : A unidade de tempo
     
 
 - Para gerenciar a base de dados eu optei por aplicar o flyway.
