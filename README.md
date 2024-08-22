@@ -99,3 +99,12 @@ GET : /pauta/view/:id
 
 POST : /voto/:id
 - Registra o voto na pauta da sessão especificada no id
+
+
+## Front End
+
+Para acessar a interface que se comunica com essa api, segue o link : 
+- https://votacao-mgdy.onrender.com/
+
+Repositório :
+- https://github.com/Samara-Bastos/Votacao_React
