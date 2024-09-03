@@ -1,10 +1,10 @@
 package desafio.votacao.service.SessaoVotacao;
 
 import java.time.LocalTime;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import desafio.votacao.dto.Voto.RequestVotoDto;
 import desafio.votacao.enums.Resultado;
@@ -22,8 +22,6 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     @Autowired
     SessaoVotacaoRepository repository;
 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
     @Override
     public void abrirSessaoVotacao(boolean ativaSessao, int tempo, Pauta pauta){
         if (!ativaSessao) {
@@ -39,7 +37,6 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                                                     .build();  
 
         repository.save(sessaoVotacao);
-        scheduler.scheduleAtFixedRate(() -> verificaSeTempoSessaoExpirou(sessaoVotacao.getIdVotacao(),sessaoVotacao.getTempoFimSessao()), 1, 1, TimeUnit.MINUTES);
     }
 
     @Override
@@ -59,14 +56,19 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     }
 
     @Override
-    public void verificaSeTempoSessaoExpirou(Long id, LocalTime tempoFimSessao){
+    @Scheduled(fixedRate = 60000)
+    public void verificaSeTempoSessaoExpirou(){
         LocalTime agora = LocalTime.now().withNano(0);
-        if (!agora.equals(tempoFimSessao)) {
-            return;
-        }
-        SessaoVotacao sessaoBuscada = buscarSessaoVotacao(id);
-        geraResultadoDaSessaoVotacao(sessaoBuscada);
-        fechaSessaoVotacaoAtiva(sessaoBuscada);            
+        buscarSessaoVotacaoAtiva().forEach(sessaoBuscada ->{
+            if (agora.equals(sessaoBuscada.getTempoFimSessao()) || agora.isAfter(sessaoBuscada.getTempoFimSessao())) {
+                geraResultadoDaSessaoVotacao(sessaoBuscada);
+                fechaSessaoVotacaoAtiva(sessaoBuscada);
+            }
+        });         
+    }
+
+    private List<SessaoVotacao> buscarSessaoVotacaoAtiva(){
+        return repository.findBySessaoVotacaoAtiva();  
     }
     
     private void fechaSessaoVotacaoAtiva(SessaoVotacao sessaoVotacao){
