@@ -24,7 +24,7 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
 
     @Override
     public void abrirSessaoVotacao(Boolean ativaSessao, Integer tempo, Pauta pauta){
-        if (!ativaSessao) {
+        if (ativaSessao == null) {
             return;
         }
         verificaSeTempoSessaoEValido(tempo);
