@@ -6,7 +6,7 @@ import desafio.votacao.model.SessaoVotacao;
 
 public interface SessaoVotacaoService {
     
-    void abrirSessaoVotacao(boolean ativaSessao, int tempo, Pauta pauta);
+    void abrirSessaoVotacao(Boolean ativaSessao, Integer tempo, Pauta pauta);
     SessaoVotacao buscarSessaoVotacao(Long id);
     void contabilizarVotoNaSessao(SessaoVotacao sessaoVotacao, RequestVotoDto dto);
     void verificaSeTempoSessaoExpirou();

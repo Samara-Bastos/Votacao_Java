@@ -23,7 +23,7 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     SessaoVotacaoRepository repository;
 
     @Override
-    public void abrirSessaoVotacao(boolean ativaSessao, int tempo, Pauta pauta){
+    public void abrirSessaoVotacao(Boolean ativaSessao, Integer tempo, Pauta pauta){
         if (!ativaSessao) {
             return;
         }
@@ -88,7 +88,7 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
         repository.save(sessaoVotacao);   
     }
 
-    private void verificaSeTempoSessaoEValido(int tempo){
+    private void verificaSeTempoSessaoEValido(Integer tempo){
         if (tempo <= 0) {
             throw new TempoInvalidoException("O tempo de sessão não pode ser zero ou menor que zero");
         }
