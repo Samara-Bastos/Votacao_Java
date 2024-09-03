@@ -16,5 +16,5 @@ public record RequestPautaDto(
 
     Boolean ativaSessao,
     
-    int tempoSessao
+    Integer tempoSessao
 ) {}

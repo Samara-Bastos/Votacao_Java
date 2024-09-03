@@ -30,6 +30,7 @@ public class VotoServiceImpl implements VotoService {
     
     @Override
     public ResponseVotoDto registrarVoto(Long id, RequestVotoDto dto){
+        sessaoVotacaoService.verificaSeTempoSessaoExpirou();
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.buscarSessaoVotacao(id);
         verificaSeSessaoVotacaoEstaAtiva(sessaoVotacao.getAtiva());
         Usuario usuario = usuarioService.buscarUsuarioPorCpf(dto.cpf());
@@ -39,8 +40,7 @@ public class VotoServiceImpl implements VotoService {
         voto.setVotacao(sessaoVotacao);
         repository.save(voto);
         sessaoVotacaoService.contabilizarVotoNaSessao(sessaoVotacao, dto);
-        return VotoMapper.INSTANCE.votoToDto(voto);
-            
+        return VotoMapper.INSTANCE.votoToDto(voto);    
     }
 
     private void verificaSeSessaoVotacaoEstaAtiva(boolean ativa){
